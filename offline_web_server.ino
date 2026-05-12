@@ -10,10 +10,10 @@
 #include <WiFi.h>
 #include <WebServer.h>
 
-const char* ssid = "ESP32_CHAT";
-const char* password = "12345678";
+const char* ssid = "ENTER HOTSPOT NAME";
+const char* password = "ENTRE YOU PASSOWRD";
 
-const String LOGIN_PASS = "chat123";
+const String LOGIN_PASS = "Entre your login pass";
 
 WebServer server(80);
 
