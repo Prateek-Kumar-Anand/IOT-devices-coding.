@@ -1,0 +1,102 @@
+#include <WiFi.h>
+#include <WebServer.h>
+
+const char* ssid = "ESP32-GIF";
+const char* password = "12345678";
+
+WebServer server(80);
+
+// List of GIF URLs
+String gifs[] = {
+  "https://media.giphy.com/media/ICOgUNjpvO0PC/giphy.gif",
+  "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif",
+  "https://media.giphy.com/media/l0HlNaQ6gWfllcjDO/giphy.gif",
+  "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif",
+  "https://media.giphy.com/media/xT0xeJpnrWC4XWblEk/giphy.gif"
+};
+
+int totalGifs = sizeof(gifs) / sizeof(gifs[0]);
+
+void handleRoot() {
+
+  int randomGif = random(totalGifs);
+
+  String html = R"rawliteral(
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <title>ESP32 Random GIF</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+          body{
+              background:#111;
+              color:white;
+              text-align:center;
+              font-family:Arial;
+          }
+
+          img{
+              width:90%;
+              max-width:500px;
+              border-radius:15px;
+              margin-top:20px;
+          }
+
+          button{
+              padding:12px 25px;
+              font-size:18px;
+              border:none;
+              border-radius:10px;
+              background:#00bcd4;
+              color:white;
+              cursor:pointer;
+              margin-top:20px;
+          }
+      </style>
+  </head>
+  <body>
+
+      <h1>ESP32 Random GIF Server</h1>
+
+      <img src=")rawliteral";
+
+  html += gifs[randomGif];
+
+  html += R"rawliteral(">
+
+      <br>
+
+      <button onclick="location.reload()">Next Random GIF</button>
+
+  </body>
+  </html>
+  )rawliteral";
+
+  server.send(200, "text/html", html);
+}
+
+void setup() {
+
+  Serial.begin(115200);
+
+  randomSeed(micros());
+
+  // Start Hotspot
+  WiFi.softAP(ssid, password);
+
+  Serial.println("");
+  Serial.println("WiFi Hotspot Started");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.softAPIP());
+
+  // Webpage
+  server.on("/", handleRoot);
+
+  server.begin();
+
+  Serial.println("Web Server Started");
+}
+
+void loop() {
+  server.handleClient();
+}
