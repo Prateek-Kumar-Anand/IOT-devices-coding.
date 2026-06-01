@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trig & Inverse Trig Graphs</title>
-
 <style>
 body{
     font-family: Arial, sans-serif;
@@ -20,11 +19,8 @@ select{
 }
 </style>
 </head>
-
 <body>
-
 <h2>Trigonometric & Inverse Trigonometric Graphs</h2>
-
 <select id="func" onchange="drawGraph()">
     <option value="sin">sin(x)</option>
     <option value="cos">cos(x)</option>
@@ -39,16 +35,11 @@ select{
     <option value="asec">sec⁻¹(x)</option>
     <option value="acot">cot⁻¹(x)</option>
 </select>
-
 <br>
-
 <canvas id="graph" width="1000" height="500"></canvas>
-
 <script>
-
 const canvas = document.getElementById("graph");
 const ctx = canvas.getContext("2d");
-
 function drawAxes()
 {
     ctx.strokeStyle = "black";
@@ -62,7 +53,6 @@ function drawAxes()
 
     ctx.stroke();
 }
-
 function getValue(type,x)
 {
     switch(type)
